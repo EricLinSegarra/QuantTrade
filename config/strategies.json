@@ -1,0 +1,14 @@
+{
+    "TSLA": {
+        "strategies": ["ma_crossover"],
+        "filters": ["volume_filter"]
+    },
+    "SPY": {
+        "strategies": ["ma_crossover"],
+        "filters": []
+    },
+    "NVDA": {
+        "strategies": ["ma_crossover"],
+        "filters": []
+    }
+}
