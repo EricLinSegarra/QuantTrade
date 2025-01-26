@@ -1,14 +1,22 @@
 {
-    "TSLA": {
-        "strategies": ["ma_crossover"],
+    "AAPL": {
+        "strategy": "ma_crossover",
         "filters": ["volume_filter"]
     },
-    "SPY": {
-        "strategies": ["ma_crossover"],
+    "MSFT": {
+        "strategy": "weinstein_breakout_ema",
         "filters": []
     },
-    "NVDA": {
-        "strategies": ["ma_crossover"],
+    "GOOGL": {
+        "strategy": "ma_crossover",
+        "filters": []
+    },
+    "BTC-USD": {
+        "strategy": "ma_crossover",
+        "filters": []
+    },
+    "ETH-USD": {
+        "strategy": "ma_crossover",
         "filters": []
     }
 }

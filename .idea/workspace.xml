@@ -4,17 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a703762-4bf1-4ac7-bfc3-5666af6c45af" name="Changes" comment="Initial commit - Added project structure&#10;Added a test print statement to main.py">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/strategies.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/backtesting/backtester.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/filters/volume_filter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/strategies/ma_crossover.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/utils/data_loader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/utils/plotting.py" afterDir="false" />
+    <list default="true" id="0a703762-4bf1-4ac7-bfc3-5666af6c45af" name="Changes" comment="Initial commit - Added project structure&#10;Added a test print statement to main.py&#10;Added backtester, data_loader, simple strategy to test, basic plotting, simple filter (volume in this case)&#10;Added EMA filter, to detect if we are in uptrend or downtrend">
+      <change afterPath="$PROJECT_DIR$/modules/strategies/weinstein_breakout.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/strategies.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/strategies.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/backtesting/backtester.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/backtesting/backtester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/utils/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/utils/data_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/utils/plotting.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/utils/plotting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,23 +28,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2s5CoLY7A8WmLwIeljVhI3tdg4f" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "configurable.group.tools"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\OnlineFolder\PyCharm_Projects\SystematicTrading\modules\utils" />
@@ -88,7 +85,31 @@
       <option name="project" value="LOCAL" />
       <updated>1737738901879</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Initial commit - Added project structure&#10;Added a test print statement to main.py&#10;Added backtester, data_loader, simple strategy to test, basic plotting, simple filter (volume in this case)">
+      <option name="closed" value="true" />
+      <created>1737742035194</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1737742035194</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Initial commit - Added project structure&#10;Added a test print statement to main.py&#10;Added backtester, data_loader, simple strategy to test, basic plotting, simple filter (volume in this case)">
+      <option name="closed" value="true" />
+      <created>1737743894063</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1737743894063</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Initial commit - Added project structure&#10;Added a test print statement to main.py&#10;Added backtester, data_loader, simple strategy to test, basic plotting, simple filter (volume in this case)&#10;Added EMA filter, to detect if we are in uptrend or downtrend">
+      <option name="closed" value="true" />
+      <created>1737744482577</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737744482577</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -105,6 +126,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit - Added project structure" />
     <MESSAGE value="Initial commit - Added project structure&#10;Added a test print statement to main.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit - Added project structure&#10;Added a test print statement to main.py" />
+    <MESSAGE value="Initial commit - Added project structure&#10;Added a test print statement to main.py&#10;Added backtester, data_loader, simple strategy to test, basic plotting, simple filter (volume in this case)" />
+    <MESSAGE value="Initial commit - Added project structure&#10;Added a test print statement to main.py&#10;Added backtester, data_loader, simple strategy to test, basic plotting, simple filter (volume in this case)&#10;Added EMA filter, to detect if we are in uptrend or downtrend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit - Added project structure&#10;Added a test print statement to main.py&#10;Added backtester, data_loader, simple strategy to test, basic plotting, simple filter (volume in this case)&#10;Added EMA filter, to detect if we are in uptrend or downtrend" />
   </component>
 </project>
