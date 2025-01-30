@@ -1,50 +1,115 @@
+import mplfinance as mpf
+import pandas as pd
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 
 
-def plot_signals(data):
+def plot_signals_ohlc(data, file_path, max_points=500):
     """
-    Plot the close price along with buy/sell signals.
+    Plots OHLC chart with Moving Average Crossover signals and volume using mplfinance.
+    Skips plotting if there are no buy signals.
 
     Args:
-        data (pd.DataFrame): Data with 'Close' and 'Signal' columns.
+        data (pd.DataFrame): Market data with 'Open', 'High', 'Low', 'Close', 'Volume', and 'Signal'.
+        file_path (str): Path to the CSV file, used to extract the ticker name.
+        max_points (int): Maximum number of data points to display (default: 500).
     """
-    plt.figure(figsize=(12, 6))
-    plt.plot(data.index, data["Close"], label="Close Price", alpha=0.6)
+    ticker = file_path.split("/")[-1].replace(".csv", "")
+    data = data.iloc[:max_points].copy()
 
-    # Buy signals (Signal = 1)
-    buy_signals = data[data["Signal"] == 1]
-    plt.scatter(buy_signals.index, buy_signals["Close"], label="Buy Signal", marker="^", color="green")
+    # Ensure the index is DatetimeIndex and correctly formatted
+    if not isinstance(data.index, pd.DatetimeIndex):
+        data.index = pd.to_datetime(data.index)
 
-    # Sell signals (Signal = -1)
-    sell_signals = data[data["Signal"] == -1]
-    plt.scatter(sell_signals.index, sell_signals["Close"], label="Sell Signal", marker="v", color="red")
+    # 🚨 Force the index to be unique and sorted
+    data = data[~data.index.duplicated(keep="first")]
+    data = data.sort_index()
 
-    plt.legend()
-    plt.title("Trading Signals")
+    # Debug: Print first dates
+    print(f"📅 {ticker} - First date in dataset: {data.index.min().strftime('%b %Y')}")
+
+    if data.empty or (data["Signal"] == 1).sum() == 0:
+        print(f"⚠️ No buy signals for {ticker}, skipping plot.")
+        return
+
+    # Calculate moving averages
+    data["Short_MA"] = data["Close"].rolling(window=20).mean()
+    data["Long_MA"] = data["Close"].rolling(window=50).mean()
+    data.dropna(inplace=True)
+
+    # Buy signals
+    buy_signal_series = data["Close"].copy()
+    buy_signal_series[data["Signal"] != 1] = None
+
+    add_plots = [
+        mpf.make_addplot(data["Short_MA"], color="blue", linestyle="dashed", width=1),
+        mpf.make_addplot(data["Long_MA"], color="red", linestyle="dashed", width=1),
+        mpf.make_addplot(buy_signal_series, type="scatter", marker="^", color="g", markersize=100),
+    ]
+
+    # Create figure and axes
+    fig, ax = mpf.plot(
+        data,
+        type="ohlc",
+        volume=True,
+        style="charles",
+        show_nontrading=False,
+        figsize=(12, 8),
+        addplot=add_plots,
+        panel_ratios=(3, 1),
+        returnfig=True,
+        title=f"MA Crossover Signals - {ticker}",
+    )
+
+    # 🔹 Fix date formatting issue
+    ax[0].xaxis.set_major_locator(mdates.MonthLocator())
+    ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%b %y'))  # "Jan 20", "Feb 20"
+    plt.setp(ax[0].xaxis.get_majorticklabels(), rotation=30)
+
     plt.show()
 
 
-def plot_weinstein_signals_ema(data):
-    """
-    Plot price data with Weinstein breakout signals using a 30-week EMA.
+def plot_weinstein_signals_ohlc(data, file_path, max_points=500):
+    ticker = file_path.split("/")[-1].replace(".csv", "")  # Extract ticker name
+    data = data.iloc[:max_points].copy()  # Limit to first N data points
 
-    Args:
-        data (pd.DataFrame): Historical data with 'Close', 'EMA_30_Week', and 'Signal' columns.
-    """
-    # Check if EMA_30_Week exists
-    if 'EMA_30_Week' not in data.columns:
-        raise ValueError("Column 'EMA_30_Week' is missing. Ensure the strategy was run correctly.")
+    # Ensure the index is DatetimeIndex
+    if not isinstance(data.index, pd.DatetimeIndex):
+        data.index = pd.to_datetime(data.index)
 
-    import matplotlib.pyplot as plt
+    # Ensure index is unique and sorted
+    data = data[~data.index.duplicated(keep="first")]
+    data = data.sort_index()
 
-    plt.figure(figsize=(12, 6))
-    plt.plot(data.index, data["Close"], label="Close Price", color="blue", alpha=0.6)
-    plt.plot(data.index, data["EMA_30_Week"], label="30-Week EMA", color="orange", alpha=0.8)
+    # Debugging: Check first date
+    print(f"📅 {ticker} - First date in dataset: {data.index.min().strftime('%b %Y')}")
 
-    # Breakout signals (Signal = 1)
-    breakout_signals = data[data["Signal"] == 1]
-    plt.scatter(breakout_signals.index, breakout_signals["Close"], label="Breakout Signal", marker="^", color="green")
+    # Check for buy signals
+    if data.empty or (data["Signal"] == 1).sum() == 0:
+        print(f"⚠️ No buy signals for {ticker}, skipping plot.")
+        return
 
-    plt.legend()
-    plt.title("Weinstein Breakout Signals with 30-Week EMA")
-    plt.show()
+    # Buy signals
+    buy_signal_series = data["Close"].copy()
+    buy_signal_series[data["Signal"] != 1] = None  # Keep same length, only show buy signals
+
+    # Create addplots
+    add_plots = [
+        mpf.make_addplot(data["EMA_30_Week"], color="orange", width=1.5),
+        mpf.make_addplot(buy_signal_series, type="scatter", marker="^", color="g", markersize=100),
+    ]
+
+    fig, ax = mpf.plot(
+        data,
+        type="ohlc",
+        volume=True,
+        style="charles",
+        figsize=(12, 8),
+        addplot=add_plots,
+        panel_ratios=(3, 1),
+        returnfig=True,
+        title=f"Weinstein Breakout with 30-Week EMA - {ticker}",
+    )
+
+    mpf.show()
+

@@ -1,22 +1,30 @@
 {
-    "AAPL": {
-        "strategy": "ma_crossover",
+    "GILD": {
+        "strategy": "weinstein_breakout_ema",
         "filters": ["volume_filter"]
     },
-    "MSFT": {
+    "PODD": {
         "strategy": "weinstein_breakout_ema",
         "filters": []
     },
-    "GOOGL": {
-        "strategy": "ma_crossover",
+    "BLOK": {
+        "strategy": "weinstein_breakout_ema",
         "filters": []
     },
-    "BTC-USD": {
-        "strategy": "ma_crossover",
+    "ADP": {
+        "strategy": "weinstein_breakout_ema",
         "filters": []
     },
-    "ETH-USD": {
-        "strategy": "ma_crossover",
+    "MARA": {
+        "strategy": "weinstein_breakout_ema",
+        "filters": []
+    },
+    "TLT": {
+        "strategy": "weinstein_breakout_ema",
+        "filters": []
+    },
+    "TMF": {
+        "strategy": "weinstein_breakout_ema",
         "filters": []
     }
 }

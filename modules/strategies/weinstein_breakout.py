@@ -32,14 +32,20 @@ class WeinsteinBreakoutEMA:
         if not isinstance(data.index, pd.DatetimeIndex):
             raise ValueError("Index must be a DatetimeIndex to detect market frequency.")
 
-        # Use the index to group by weeks
-        data['Week'] = data.index.isocalendar().week
-        weekly_counts = data.groupby('Week').size()  # Count days per week
-        avg_days_per_week = weekly_counts.mean()
+        # Count days per unique week (using Year-Week period)
+        weekly_counts = data.resample("W").size()  # Count days per week
+        avg_days_per_week = weekly_counts.mean()  # Average days per week
 
         # Estimate EMA window: 30 weeks x avg days per week
-        ema_window = int(30 * avg_days_per_week)
+        ema_window = int(round(30 * avg_days_per_week))
+
+        # Ensure EMA window is within a reasonable range
+        ema_window = max(140, min(ema_window, 220))  # 140 <= ema_window <= 220
+
+        print(f"Estimated EMA window: {ema_window} days")
         return ema_window
+
+
 
     def generate_signals(self, data):
         """
@@ -61,6 +67,7 @@ class WeinsteinBreakoutEMA:
 
         # Detect market frequency
         ema_window = self.detect_market_frequency(data)
+        print(ema_window)
 
         # Calculate 30-week EMA
         data['EMA_30_Week'] = data['Close'].ewm(span=ema_window, adjust=False).mean()
